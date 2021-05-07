@@ -1,10 +1,13 @@
 package com.iocContainer.dependency;
 
+import com.iocContainer.annotaion.Super;
 import com.iocContainer.domain.User;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.Map;
 
 /**
  * @ClassName: com.iocContainer.dependency.DependencyLookUpDemo
@@ -30,9 +33,35 @@ public class DependencyLookUpDemo {
         //按名称+类型方式查找
         lookupByTypeAndName(beanFactory);
 
+        //按类型查找集合对象
+        lookupCollectionByType(beanFactory);
+
+        // 按注解方式查找
+        lookupByAnnotation(beanFactory);
+    }
+
+    private static void lookupByAnnotation(BeanFactory beanFactory) {
+        if (beanFactory instanceof ListableBeanFactory) {
+            ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
+            // Map Key -> user Bean id, Value = User 对象
+            Map<String, User> users = (Map) listableBeanFactory.getBeansWithAnnotation(Super.class);
+            System.out.println("按注解查找 User 集合对象：" + users);
+        }
 
 
+    }
 
+    /**
+     * 按照类型进行bean的查找时 其子类也会被查找
+     * @param beanFactory
+     */
+    private static void lookupCollectionByType(BeanFactory beanFactory) {
+        if (beanFactory instanceof ListableBeanFactory){
+            ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
+            // Map key -> user bean id, Value = User 对象
+            Map<String, User> users =(Map) listableBeanFactory.getBeansOfType(User.class);
+            System.out.println("按类型查找 User 集合对象："+ users);
+        }
     }
 
     private static void lookupByTypeAndName(BeanFactory beanFactory) {

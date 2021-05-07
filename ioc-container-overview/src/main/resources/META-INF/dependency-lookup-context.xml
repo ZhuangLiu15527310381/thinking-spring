@@ -20,4 +20,9 @@
         <property name="name" value="张三"/>
     </bean>
 
+    <bean id="superUser" class="com.iocContainer.domain.SuperUser" parent="user" primary="true">
+        <property name="address" value="北京"></property>
+    </bean>
+
+
 </beans>
