@@ -13,7 +13,9 @@ import java.util.Map;
  * @ClassName: com.iocContainer.dependency.DependencyLookUpDemo
  * @Author: liuzhuang10
  * @Date: 2021/5/7
- * @Describe:
+ * @Describe: Spring IoC 依赖查找示例 class
+             *   1. 通过名称的方式来查找
+             *   2. 通过类型的方式来查找
  **/
 public class DependencyLookUpDemo {
 
