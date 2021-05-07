@@ -11,6 +11,13 @@
         <property name="name" value="zs"/>
     </bean>
 
+    <bean id="objectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName" value="user"/>
+    </bean>
 
+    <bean id="user2" class="com.iocContainer.domain.User">
+        <property name="id" value="1"/>
+        <property name="name" value="张三"/>
+    </bean>
 
 </beans>
