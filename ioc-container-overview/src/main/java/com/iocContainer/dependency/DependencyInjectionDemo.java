@@ -2,7 +2,10 @@ package com.iocContainer.dependency;
 
 import com.iocContainer.repository.UserRespository;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.Environment;
 
 /**
  * @ClassName: com.iocContainer.dependency.DependencyInjectionDemo
@@ -23,10 +26,39 @@ public class DependencyInjectionDemo {
 
 
         //依赖来源二： 依赖注入（内建依赖） DefaultListableBeanFactory
-        System.out.println(userRespository.getBeanFactory());
-        System.out.println(beanFactory);
-        System.out.println(userRespository.getBeanFactory() == beanFactory);
+//        System.out.println(userRespository.getBeanFactory());
+//        System.out.println(beanFactory);
+//        System.out.println(userRespository.getBeanFactory() == beanFactory);
+
+        ObjectFactory<ApplicationContext> objectFactory = userRespository.getObjectFactory();
+        //ApplicationContext
+        System.out.println(objectFactory.getObject());
+
+        //内建对象
+        System.out.println("内建Bean对象："+(objectFactory.getObject()== beanFactory));
+
+        // 依赖来源三：容器内建Bean
+        Environment environment = beanFactory.getBean(Environment.class);
+        System.out.println("获取Environment 类型的Bean: "+ environment);
 
 
     }
+
+    private static void whoIsIocContainer(UserRespository userRepository,
+                                          ApplicationContext applicationContext) {
+
+        // ConfigurableApplicationContext <- ApplicationContext <- BeanFactory
+
+        // ConfigurableApplicationContext#getBeanFactory()
+
+        // 这个表达式为什么会不成立
+        // 因为 AbstractRefreshableApplicationContext创建了DefaultListableBeanFactory，他们俩个并不是一个对象
+        // false
+        System.out.println("内建非 Bean 对象（依赖）: " + (userRepository.getBeanFactory() == applicationContext));
+
+        // ApplicationContext is BeanFactory
+
+    }
+
+
 }

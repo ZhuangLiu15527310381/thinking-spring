@@ -8,4 +8,12 @@
     <import resource="dependency-lookup-context.xml"/>
 
     <bean id="userRespository" class="com.iocContainer.repository.UserRespository" autowire="byType"/>
+
+    <bean id="superUser" class="com.iocContainer.domain.SuperUser" parent="user" primary="true"/>
+
+    <!-- 内建Bean对象 -->
+    <bean id="objectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName" value="user"/>
+    </bean>
+
 </beans>
